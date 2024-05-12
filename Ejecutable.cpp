@@ -54,3 +54,89 @@ void inicioSesion(){
         cout << "El usuario no fue encontrado en la base de datos. Registrese primero y luego intente de nuevo" << endl;
     }
 }
+
+class Tarea {
+
+    private:
+
+    string nombreT;
+    string explicacion;
+
+    public:
+
+    Tarea(const string& _nombreT, const string& _explicacion){
+
+        nombreT = _nombreT;
+        explicacion = _explicacion;
+    }
+
+    void setNombreT(string _nombreT){
+
+        nombreT = _nombreT;
+    }
+
+    string getNombreT(){
+
+        return nombreT;
+    }
+
+    void setExplicacion(string _explicacion){
+
+        explicacion = _explicacion;
+    }
+};
+
+class Proyecto {
+
+    private:
+
+    map <string, vector<Tarea>> proyectos;
+
+    public:
+
+    void crearProyecto(){
+
+        string nombreProyecto;
+
+        cout << "Ingrese el nombre de su proyecto: " << endl;
+        cin >> nombreProyecto;
+
+        proyectos[nombreProyecto] = vector<Tarea>();
+
+        cout << "Proyecto " << nombreProyecto << "ha sido creado exitosamente!" << endl; 
+    }
+
+    void agregarTareaAProyecto(){
+
+        string nombreProyecto;
+        string nombreTarea;
+        string explicacion;
+
+        cout << "Ingrese el nombre del proyecto: " << endl;
+        cin >> nombreProyecto;
+
+        auto it = proyectos.find(nombreProyecto);
+        if (it == proyectos.end()) {
+
+            cout << "Proyecto " << nombreProyecto << " no existe" << endl;
+            return;
+        }
+
+        cout << "Ingrese las tareas para el proyecto " << nombreProyecto << "(Ingrese 'fin' para salir)" << endl;
+        while (true) {
+
+            cout << "Ingrese el nombre de la tarea: " << endl;
+            cin >> nombreTarea;
+
+            if (nombreTarea == "fin")
+                break;
+            
+            cout << "Ingrese la explicacion de la tarea: " << endl;
+            cin.ignore();
+            getline(cin, explicacion);
+            Tarea tarea(nombreTarea, explicacion);
+            it -> second.push_back(tarea);
+            cout << "Tarea agregada al proyecto: " << nombreProyecto << endl;
+        }
+    }
+};
