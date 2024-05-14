@@ -128,6 +128,37 @@ public:
         }
         archivo.close(); // Cierra el archivo
     }
+    // Función para cambiar el estado de una tarea
+void cambiarEstado(int id, string nuevoEstado)
+{
+    // Verifica si la tarea con el ID proporcionado existe en el mapa de tareas
+    if (tareas.find(id)!= tareas.end())
+    {
+        // Verifica si el nuevo estado es uno de los estados válidos ("pendiente", "en progreso", "completada")
+        if ((nuevoEstado == "pendiente") || (nuevoEstado == "en progreso") || (nuevoEstado == "completada"))
+        {
+            // Cambia el estado de la tarea en el mapa de tareas
+            tareas[id].estado = nuevoEstado;
+            
+            // Elimina la tarea actual de la cola de tareas para reflejar el cambio de estado
+            colaDeTareas.pop();
+            
+            // Vuelve a agregar la tarea a la cola de tareas con el nuevo estado, lo que actualiza su posición en la cola
+            // según su prioridad, ya que el estado puede afectar la prioridad de la tarea en la gestión de tareas
+            colaDeTareas.push(tareas[id]);
+        }
+        else
+        {
+            // Si el nuevo estado no es válido, muestra un mensaje de error
+            cerr << "Error: El estado ingresado no es válido o la tarea no existe." << endl;
+        }
+    }
+    else
+    {
+        // Si la tarea con el ID proporcionado no existe, muestra un mensaje de error
+        cerr << "Error: El estado ingresado no es válido o la tarea no existe." << endl;
+    }
+}
 };
 
 int main()
@@ -143,11 +174,12 @@ int main()
 
     int opcion, id, prioridad;
     string nombre, estado, responsable, fechaLimite, resumen;
+    string nuevoEstado; // Variable para almacenar el nuevo estado de la tarea
 
     // Bucle principal del programa
     while (true)
     {
-        cout << "\n1. Agregar Tarea\n2. Actualizar Prioridad\n3. Eliminar Tarea\n4. Mostrar Tareas\n5. Guardar Tareas\n6. Salir\n";
+        cout << "\n1. Agregar Tarea\n2. Actualizar Prioridad\n3. Eliminar Tarea\n4.Actulizar estado de tarea\n5. Mostrar Tareas \n6. Guardar Tareas\n7. Salir\n";
         cout << "Ingrese su opción: ";
         cin >> opcion;
 
@@ -183,15 +215,22 @@ int main()
             cin >> id;
             gestor.eliminarTarea(id);
             break;
-        case 4: // Mostrar Tareas
+        case 4: // Cambiar Estado
+            cout << "Ingrese el ID de la tarea: ";
+            cin >> id;
+            cout << "Ingrese el nuevo estado de la tarea (pendiente, en progreso, completada): ";
+            cin >> nuevoEstado;
+            gestor.cambiarEstado(id, nuevoEstado);
+            break;
+        case 5: // Mostrar Tareas
             gestor.mostrarTareas();
             break;
-        case 5: // Guardar Tareas
+        case 6: // Guardar Tareas
             cout << "Ingrese el nombre del archivo para guardar las tareas: ";
             cin >> filename;
             gestor.guardarTareas(filename);
             break;
-        case 6:       // Salir
+        case 7:       // Salir
             return 0; // Termina el programa
         default:
             cout << "Opción inválida. Por favor, intente de nuevo.\n";
