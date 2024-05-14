@@ -70,40 +70,63 @@ class Tarea {
         explicacion = _explicacion;
     }
 
-    void setNombreT(string _nombreT){
+    void setNombreT(const string _nombreT){
 
         nombreT = _nombreT;
     }
 
-    string getNombreT(){
+    string getNombreT() const {
 
         return nombreT;
     }
 
-    void setExplicacion(string _explicacion){
+    void setExplicacion(const string _explicacion){
 
         explicacion = _explicacion;
     }
+
+    string getExplicacion() const {
+
+        return explicacion;
+    }
+};
+
+struct DetallesProyecto {
+
+    string nombrePropietario;
+    string estado;
+
 };
 
 class Proyecto {
 
     private:
 
-    map <string, vector<Tarea>> proyectos;
+    map <string, pair<DetallesProyecto, vector<Tarea>>> proyectos;
 
     public:
 
     void crearProyecto(){
 
         string nombreProyecto;
+        string nombrePropietario;
+        string estado;
 
         cout << "Ingrese el nombre de su proyecto: " << endl;
-        cin >> nombreProyecto;
+        getline(cin,nombreProyecto);
 
-        proyectos[nombreProyecto] = vector<Tarea>();
+        cout << "Ingrese el nombre del propietario: " << endl;
+        getline(cin,nombrePropietario);
 
-        cout << "Proyecto " << nombreProyecto << "ha sido creado exitosamente!" << endl; 
+        cout << "Ingrese el estado del proyecto: " << endl;
+        getline(cin,estado);
+        
+        proyectos[nombreProyecto].first = {nombrePropietario, estado};
+        proyectos[nombreProyecto].second = vector<Tarea>();
+
+        cout << "Proyecto " << nombreProyecto << " ha sido creado exitosamente!" << endl; 
+        cout << "Propietario: " << nombrePropietario << endl;
+        cout << "Estado: " << estado << endl;
     }
 
     void agregarTareaAProyecto(){
@@ -113,7 +136,8 @@ class Proyecto {
         string explicacion;
 
         cout << "Ingrese el nombre del proyecto: " << endl;
-        cin >> nombreProyecto;
+        cin.ignore();
+        getline(cin,nombreProyecto);
 
         auto it = proyectos.find(nombreProyecto);
         if (it == proyectos.end()) {
@@ -126,7 +150,7 @@ class Proyecto {
         while (true) {
 
             cout << "Ingrese el nombre de la tarea: " << endl;
-            cin >> nombreTarea;
+            getline(cin,nombreTarea);
 
             if (nombreTarea == "fin")
                 break;
@@ -135,8 +159,34 @@ class Proyecto {
             cin.ignore();
             getline(cin, explicacion);
             Tarea tarea(nombreTarea, explicacion);
-            it -> second.push_back(tarea);
+            it -> second.second.push_back(tarea);
             cout << "Tarea agregada al proyecto: " << nombreProyecto << endl;
         }
     }
+
+    void buscarProyectoXNombre(){
+
+        if (proyectos.empty()){
+            cout << "No hay proyectos disponibles" << endl;
+            return;
+        }
+
+        string nombreBusqueda;
+
+        cout << "Ingrese el nombre del proyecto del que desea ver las tareas: " << endl;
+        cin.ignore();
+        getline(cin,nombreBusqueda);
+
+        auto it = proyectos.find(nombreBusqueda);
+        if (it == proyectos.end()){
+            cout << "Proyecto " << nombreBusqueda << " no encontrado" << endl;
+            return;
+        }
+
+        cout << "Tareas del proyecto " << nombreBusqueda << ":" << endl;
+        for (Tarea& tarea : it -> second.second){
+            cout << "Nombre: " << tarea.getNombreT() << ", Explicacion: " << tarea.getExplicacion() << endl;
+        }
+    }
 };
+
