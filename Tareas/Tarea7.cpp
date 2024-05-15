@@ -186,7 +186,7 @@ public:
         }
     }
 
-    // Nueva función para visualizar tareas por proyecto
+    //Funcion para visualizar por proyecto las tareas
     void visualizarTareasPorProyecto() {
         if (proyectos.empty()) {
             cout << "No hay proyectos disponibles" << endl;
