@@ -189,28 +189,39 @@ public:
     //Funcion para visualizar por proyecto las tareas
     void visualizarTareasPorProyecto() {
         if (proyectos.empty()) {
-            cout << "No hay proyectos disponibles" << endl;
+            cout << "No hay proyectos disponibles." << endl;
             return;
         }
 
-        cout << "Ingrese el nombre del proyecto que desea visualizar: " << endl;
-        cin.ignore();
+        cout << "Ingrese el nombre del proyecto que desea visualizar: ";
         string nombreProyecto;
         getline(cin, nombreProyecto);
 
         auto it = proyectos.find(nombreProyecto);
         if (it == proyectos.end()) {
-            cout << "Proyecto " << nombreProyecto << " no encontrado" << endl;
+            cout << "Proyecto no encontrado." << endl;
             return;
         }
 
-        cout << "Detalles del proyecto " << nombreProyecto << ":" << endl;
+        cout << "\nDetalles del proyecto " << nombreProyecto << ":" << endl;
         cout << "Propietario: " << it->second.first.nombrePropietario << endl;
         cout << "Estado: " << it->second.first.estado << endl;
-        cout << "Tareas asociadas:" << endl;
-        for (const auto& tarea : it->second.second) {
-            cout << "Nombre: " << tarea.getNombreT() << ", Explicacion: " << tarea.getExplicacion() << endl;
+
+        vector<Tarea>& tareas = it->second.second;
+
+        // Filtrado y Ordenamiento (Ejemplo: Ordenar por nombre de tarea)
+        sort(tareas.begin(), tareas.end(), [](const Tarea& a, const Tarea& b) {
+            return a.getNombreT() < b.getNombreT();
+        });
+
+        cout << "\nTareas asociadas:" << endl;
+        if (tareas.empty()) {
+            cout << "No hay tareas en este proyecto." << endl;
+        } else {
+            for (const auto& tarea : tareas) {
+                cout << "- Nombre: " << tarea.getNombreT() << endl;
+                cout << "  Explicacion: " << tarea.getExplicacion() << endl;
+            }
         }
-        cout << "-------------------------" << endl;
     }
 };

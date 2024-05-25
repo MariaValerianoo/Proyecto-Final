@@ -1,34 +1,29 @@
 #include <iostream>
 #include <map>
 #include <string>
+#include <vector>
+
 using namespace std;
 
+class Responsable {
+private:
+    map<string, vector<string>> tareas_responsables;
 
-
-class Responsable{
-    private:
-    // Crear una estructura para almacenar las tareas y sus responsables
-    map<string, string> tareas_responsables;
-    public:
-    string tarea;
-    string nom;
-    Responsable(){
-        // Agregar tareas y responsables
-
-    cout<<"Primero dinos que tarea es: (Escribelo asi:Tarea1) \n";
-    cin>>tarea;
-    cout<<"Ahora dime el nombre de la persona a la que se lo vamos a asignar: \n";
-    cin>>nom;
-    tareas_responsables[tarea] = nom;
-
+public:
+    void asignarResponsable(const string& tarea, const string& responsable) {
+        tareas_responsables[tarea].push_back(responsable);
     }
 
-    // Consultar el responsable de una tarea específica
     void consultarResponsable(const string& tarea) {
-        if (tareas_responsables.find(tarea) != tareas_responsables.end()) {
-            cout << "El responsable de " << tarea << " es " << tareas_responsables[tarea] << endl;
+        auto it = tareas_responsables.find(tarea);
+        if (it != tareas_responsables.end()) {
+            cout << "Responsables de " << tarea << ": ";
+            for (const auto& resp : it->second) {
+                cout << resp << " ";
+            }
+            cout << endl;
         } else {
-            cout << "La tarea " << tarea << " no tiene un responsable asignado." << endl;
+            cout << "La tarea " << tarea << " no tiene responsables asignados." << endl;
         }
     }
 };
@@ -36,8 +31,13 @@ class Responsable{
 int main() {
     Responsable responsable;
 
-    // Consultar el responsable de una tarea específica
+    responsable.asignarResponsable("Tarea1", "Juan");
+    responsable.asignarResponsable("Tarea1", "Ana");
+    responsable.asignarResponsable("Tarea2", "Pedro");
+
+    responsable.consultarResponsable("Tarea1");
     responsable.consultarResponsable("Tarea2");
+    responsable.consultarResponsable("Tarea3"); 
 
     return 0;
 }
