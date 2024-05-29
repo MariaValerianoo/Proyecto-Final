@@ -75,7 +75,7 @@ bool inicioSesion()
         return false;
     }
 }
-
+////////////
 // Estructura para almacenar datos de una tarea
 struct Tarea
 {
@@ -87,7 +87,7 @@ struct Tarea
     string resumen;
     string notas; // Nuevo campo para notas
 };
-
+////////
 // Estructura para almacenar detalles del proyecto
 struct DetallesProyecto
 {
@@ -594,7 +594,7 @@ private:
         strftime(buffer, 80, "%d/%m/%Y", tiempoLocal);
         return string(buffer);
     }
-
+/////////
     void menuProyecto(string nombreProyecto)
     {
         while (true)
@@ -605,10 +605,9 @@ private:
             cout << "3. Mostrar notas del proyecto" << endl; // Nueva opción
             cout << "4. Mostrar notas de una tarea" << endl; // Nueva opción
             cout << "5. Eliminar proyecto" << endl;
-            cout << "6. Editar detalles del proyecto" << endl;
-            cout << "7. Guardar proyecto en archivo" << endl;
-            cout << "8. Cargar proyecto desde archivo" << endl;
-            cout << "0. Volver al menu principal" << endl;
+            cout << "6. Guardar proyecto en archivo" << endl;
+            cout << "7. Cargar proyecto desde archivo" << endl;
+            cout << "8. Volver al menu principal" << endl;
 
             int opcion;
             cout << "Ingrese una opción: ";
@@ -638,22 +637,19 @@ private:
                 eliminarProyecto(nombreProyecto);
                 return; // Salir del menú del proyecto
             case 6:
-                // Editar detalles del proyecto (opcional, no implementado en este ejemplo)
-                break;
-            case 7:
                 guardarProyectos(nombreProyecto + ".txt");
                 break;
-            case 8:
+            case 7:
                 cargarProyectos(nombreProyecto + ".txt");
                 break;
-            case 0:
+            case 8:
                 return; // Salir del menú del proyecto
             default:
                 cout << "Opción invalida. Intente nuevamente." << endl;
             }
         }
     }
-
+//////////////////
     // Función para mostrar las notas asociadas a un proyecto
     void mostrarNotasProyecto(string nombreProyecto)
     {
@@ -666,7 +662,7 @@ private:
         cout << "Notas del proyecto " << nombreProyecto << ":" << endl;
         cout << proyectos[nombreProyecto].first.notas << endl;
     }
-
+////////////////////////
     // Función para mostrar las notas asociadas a todas las tareas de un proyecto
     void mostrarNotasTarea(string nombreProyecto)
     {
