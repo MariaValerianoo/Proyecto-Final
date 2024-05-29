@@ -958,43 +958,55 @@ private:
         }
     }
 
-    void menuTarea(string nombreProyecto, string nombreTarea)
-    {
+    //Se crea el menu de tarea
+    void menuTarea(string nombreProyecto, string nombreTarea){
         while (true)
         {
             cout << "\nMenú de la Tarea " << nombreTarea << " (Proyecto: " << nombreProyecto << "):" << endl;
-            cout << "1. Editar tarea" << endl;
-            cout << "2. Agregar nota a una tarea" << endl;
-            cout << "3. Eliminar tarea" << endl;
+            cout << "1. Editar tarea" << endl; //Puede editar todos los detalles de una tarea
+            cout << "2. Agregar nota a una tarea" << endl; //Agrega notas a una tarea
+            cout << "3. Eliminar tarea" << endl; //Elimina una tarea
             cout << "4. Mostrar notas de una tarea" << endl; // Muestra las notas que tiene una tarea
-            cout << "5. Agregar reaccion a nota de una tarea" << endl;
-            cout << "6. Mostrar reacciones de una nota de tarea" << endl;
-            cout << "0. Volver al menu del proyecto" << endl;
+            cout << "5. Agregar reaccion a nota de una tarea" << endl; //Agrega reacciones a una nota de una tarea
+            cout << "6. Mostrar reacciones de una nota de tarea" << endl; // Muestra las reacciones que se agregaron
+            cout << "0. Volver al menu del proyecto" << endl; //Se devuelve al menu principal
 
             int opcion;
             cout << "Ingrese una opcion: ";
             cin >> opcion;
 
-            switch (opcion)
-            {
+            switch (opcion){
+            //Si el usuario selecciona la opcion 1
             case 1:
+                //Se llama la funcion que permite editar una tarea
                 editarTarea(nombreProyecto, nombreTarea);
                 break;
+            //Si el usuario selecciona la opcion 2
             case 2:
+                //Se llama a la funcion que permite agregar notas a tareas
                 agregarNotaATarea(nombreProyecto, nombreTarea);
                 break;
+            //Si el usuario selecciona la opcion 3
             case 3:
+                //Se llama a la funcion que permite eliminar una tarea
                 eliminarTarea(nombreProyecto, nombreTarea);
                 return;
+            //Si el usuario selecciona la opcion 4
             case 4:
+                //Se llama a la funcion que permite mostrar las notas que tiene una tarea
                 mostrarNotasTarea(nombreProyecto); 
                 break;
+            //Si el usuario seleccion la opcion 5
             case 5:
+                //Se llama la funcion que permite agregar reacciones a las notas de una tarea
                 agregarReaccionANotaDeTarea(nombreProyecto, nombreTarea);
                 break;
+            //Si el usuario selecciona la opcion 6
             case 6:
+                //Se llama la funcion que permite mostrar reacciones de las notas de una tarea
                 mostrarReaccionesANotaDeTarea(nombreProyecto, nombreTarea);
                 break;
+            //Si el usuario selecciona la opcion 0
             case 0:
                 return; // Salir del menú de la tarea
             default:
@@ -1003,97 +1015,119 @@ private:
         }
     }
 
-    void mostrarNotas(string nombreProyecto, string nombreTarea)
-    {
+    //Se crea una funcion que permite mostrar las notas de una tarea
+    void mostrarNotasTarea(string nombreProyecto, string nombreTarea){
+        //Se obtiene una referencia al proyecto usando el nombre del proyecto
         auto &proyecto = proyectos[nombreProyecto];
-        auto it = find_if(proyecto.second.begin(), proyecto.second.end(), [&nombreTarea](const Tarea &tarea)
-                          { return tarea.nombre == nombreTarea; });
+        //Se busca la tarea dentro del proyecto usando el nombre del proyecto
+        auto it = find_if(proyecto.second.begin(), proyecto.second.end(), [&nombreTarea](const Tarea &tarea){
+            return tarea.nombre == nombreTarea; 
+        });
 
-        if (it == proyecto.second.end())
-        {
+        //Si la tarea no se encuentra, se muestra un mensaje y se retorna
+        if (it == proyecto.second.end()){
             cout << "La tarea " << nombreTarea << " no existe en el proyecto " << nombreProyecto << endl;
             return;
         }
 
+        //Si se encuentra la tarea se muestran sus notas
         cout << "Notas de la tarea " << nombreTarea << ":" << endl;
-        cout << it->notas << endl;
+        cout << it -> notas << endl;
     }
 
-    void mostrarProyectoNotas(string nombreProyecto)
-    {
-        if (proyectos.find(nombreProyecto) == proyectos.end())
-        {
-            cout << "El proyecto " << nombreProyecto << " no existe." << endl;
+    //Se crea una funcion que permite mostrar las notas de un proyecto
+    void mostrarNotasProyecto(string nombreProyecto){
+        //Se crea una condicion que verifica si el proyecto que el usuario eligio existe
+        if (proyectos.find(nombreProyecto) == proyectos.end()){
+            //En caso dado de que el proyecto no exista, se le muestra un mensaje al usuario
+            cout << "El proyecto " << nombreProyecto << " no existe" << endl;
+            //Se sale de condicion
             return;
         }
 
+        //Si el proyecto existe se muestran sus notas
         cout << "Notas del proyecto " << nombreProyecto << ":" << endl;
         cout << proyectos[nombreProyecto].first.notas << endl;
     }
 
+//Se establecen los atributos publicos
 public:
-    void menuPrincipal()
-    {
-        while (true)
-        {
-            cout << "\nMenu Principal:" << endl;
-            cout << "1. Crear proyecto" << endl;
-            cout << "2. Mostrar proyectos" << endl;
-            cout << "3. Seleccionar proyecto" << endl;
-            cout << "4. Exportar datos" << endl;
-            cout << "5. Importar datos" << endl;
-            cout << "0. Salir" << endl;
+    //Se crea el menu principal
+    void menuPrincipal(){
+        while (true){
+            cout << " Menu Principal:" << endl;
+            cout << "1. Crear proyecto" << endl; //Deja crear un proyecto
+            cout << "2. Mostrar proyectos" << endl; //Muestra los proyectos creados
+            cout << "3. Seleccionar proyecto" << endl; //Deja seleccionar un proyecto
+            cout << "4. Exportar datos" << endl; //Exporta los datos
+            cout << "5. Importar datos" << endl; //Importa los datos
+            cout << "0. Salir" << endl; //Se sale del programa
 
             int opcion;
             cout << "Ingrese una opcion: ";
             cin >> opcion;
 
-            switch (opcion)
-            {
+            switch (opcion){
+            //Si el usuario selecciona la opcion 1
             case 1:
+                //Se llama a funcion que permite crear proyectos
                 crearProyecto();
                 break;
+            //Si el usuario selecciona la opcion 2
             case 2:
+                //Se llama la opcion que muestra los proyectos
                 mostrarProyectos();
                 break;
+            //Si el usuario selecciona la opcion 3
             case 3:
-                cout << "Ingrese el nombre del proyecto a seleccionar: ";
-                {
+                //Se le pide al usuario ingresar el nombre del proyecto que va a seleccionar
+                cout << "Ingrese el nombre del proyecto a seleccionar: ";{
                     string nombreProyecto;
                     cin >> nombreProyecto;
+                    //Se llama la funcion que le permite eso
                     seleccionarProyecto(nombreProyecto);
                 }
                 break;
+            //Si el usuario selecciona la opcion 4
             case 4:
-            {
+            {    
+                //Se declaran variables
                 string nombreArchivo, formato;
+                //Se le pide al usuario ingresar el nombre del archivo a exportar
                 cout << "Ingrese el nombre del archivo para exportar: ";
+                //Se almacena la informacion
                 cin >> nombreArchivo;
 
+                //Se le pide ingresar el tipo de formato
                 cout << "Ingrese el formato (csv o json, csv por defecto): ";
+                //Se almacena la informacion obtenida
                 cin >> formato;
 
+                //Se llama la funcion que permite la exportacion
                 exportarDatos(nombreArchivo, formato);
                 break;
             }
-
+            //Si el usuario selecciona la ocpion 5
             case 5:
-            {
+            {    
+                //Se declaran variables
                 string nombreArchivo;
+                //Se le pide al usuario ingresar el nombre del archivo a importar
                 cout << "Ingrese el nombre del archivo para importar: ";
+                //Se almacena la informacion
                 cin >> nombreArchivo;
 
                 // Verificar si el archivo existe antes de importar
-                if (!filesystem::exists(nombreArchivo))
-                {
+                if (!filesystem::exists(nombreArchivo)){
                     cout << "El archivo " << nombreArchivo << " no existe." << endl;
                 }
-                else
-                {
+                else{
+                    //Se llama la funcion que permite importar 
                     importarDatos(nombreArchivo);
                 }
                 break;
             }
+            //Si el usuario decide salirse 
             case 0:
                 cout << "Saliendo del programa..." << endl;
                 return;
@@ -1108,30 +1142,34 @@ int main()
 {
     int opcion;
 
-    while (true)
-    {
+    while (true){
         cout << "Menu de Inicio:" << endl;
-        cout << "1. Registrar usuario" << endl;
-        cout << "2. Iniciar sesión" << endl;
-        cout << "0. Salir" << endl;
+        cout << "1. Registrar usuario" << endl; // Permite al usuario registrarse
+        cout << "2. Iniciar sesión" << endl; //Permite al usuario iniciar sesion
+        cout << "0. Salir" << endl; //Permite al usuario salirse del sistema
 
         cout << "Ingrese una opcion: ";
         cin >> opcion;
 
-        switch (opcion)
-        {
+        switch (opcion){
+        //Si el usuario selecciona la opcion 1
         case 1:
+            //Se llama la funcion que el permite registrarse
             registrarUsuario();
             break;
+        //Si el usuario selecciona la opcion 2
         case 2:
-        {
-            if (inicioSesion())
-            {
+        {   
+            //Se llama la funcion que permite iniciar sesion con una condicion que tiene que cumplirarse para entrar al sistema
+            if (inicioSesion()){
+                //Se crea un objeto de la clase
                 Proyecto proyecto;
+                //Se llama al menu principal
                 proyecto.menuPrincipal();
             }
             break;
         }
+        //Si el usuario selecciona la opcion de salrise
         case 0:
             cout << "Saliendo del programa..." << endl;
             return 0;
